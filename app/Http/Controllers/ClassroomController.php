@@ -36,4 +36,17 @@ class ClassroomController extends Controller
 
         return redirect()->route('admin.classrooms.index')->with('success', 'Data kelas berhasil ditambahkan.');
     }
+
+    public function destroy(int $id): RedirectResponse
+    {
+        $classroom = Classroom::findOrFail($id);
+
+        if ($classroom->students()->exists()) {
+            return redirect()->route('admin.classrooms.index')->with('error', 'Kelas tidak dapat dihapus karena masih memiliki siswa.');
+        }
+
+        $classroom->delete();
+
+        return redirect()->route('admin.classrooms.index')->with('success', 'Data kelas berhasil dihapus.');
+    }
 }

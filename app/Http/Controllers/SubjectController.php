@@ -36,4 +36,17 @@ class SubjectController extends Controller
 
         return redirect()->route('admin.subjects.index')->with('success', 'Data mata pelajaran berhasil ditambahkan.');
     }
+
+    public function destroy(int $id): RedirectResponse
+    {
+        $subject = Subject::findOrFail($id);
+
+        if ($subject->teachers()->exists()) {
+            return redirect()->route('admin.subjects.index')->with('error', 'Mata pelajaran tidak dapat dihapus karena masih digunakan oleh guru.');
+        }
+
+        $subject->delete();
+
+        return redirect()->route('admin.subjects.index')->with('success', 'Data mata pelajaran berhasil dihapus.');
+    }
 }

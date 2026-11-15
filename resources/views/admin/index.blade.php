@@ -7,6 +7,11 @@
                     {{ session('success') }}
                 </div>
             @endif
+            @if (session('error'))
+                <div class="mb-4 rounded-lg bg-red-100 p-4 text-sm text-red-800" role="alert">
+                    {{ session('error') }}
+                </div>
+            @endif
 
             <!-- Header halaman -->
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
@@ -151,8 +156,12 @@
                                     <td class="py-4 px-6 text-center space-x-2">
                                         <a href="#"
                                             class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                        <a href="#"
-                                            class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                                        <form action="{{ route('admin.students.destroy', $student->id) }}" method="POST" class="inline"
+                                            onsubmit="return confirm('Yakin ingin menghapus data siswa ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

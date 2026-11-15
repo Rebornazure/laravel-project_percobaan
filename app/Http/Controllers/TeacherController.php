@@ -39,4 +39,12 @@ class TeacherController extends Controller
 
         return redirect()->route('admin.teachers.index')->with('success', 'Data guru berhasil ditambahkan.');
     }
+
+    public function destroy(int $id): RedirectResponse
+    {
+        $teacher = Teacher::findOrFail($id);
+        $teacher->delete();
+
+        return redirect()->route('admin.teachers.index')->with('success', 'Data guru berhasil dihapus.');
+    }
 }
